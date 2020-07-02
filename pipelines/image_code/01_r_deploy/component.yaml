@@ -1,0 +1,18 @@
+name: R xgboost pipeline - deploy model
+description: Deploy model in KFServing
+
+inputs:
+- {name: namespace,            type: String,     default: 'None',    description: kubeflow namespace}
+- {name: model_file_name,      type: String,     default: 'None',    description: Load trained model data path}
+- {name: gcp_bucket,           type: String,     default: 'None',    description: GCP Bucket}
+
+
+implementation:
+  container:
+    image: gcr.io/velascoluis-test/01_r_deploy:latest
+    command: [/usr/bin/python3, app/01_r_deploy.py]
+    args: [
+      '--namespace',                  {inputValue: namespace},
+      '--model_file_name',            {inputValue: model_file_name},
+      '--gcp_bucket',                 {inputValue: gcp_bucket}
+    ]

@@ -1,0 +1,15 @@
+name: R xgboost pipeline - train model
+description: Generate simple xgboost with the agaricus dataset
+
+inputs:
+- {name: model_file_name,        type: String,     default: 'None',    description: file name for save the xgboost model}
+- {name: gcp_bucket,             type: String,     default: 'None',    description: GCP Bucket}
+
+implementation:
+  container:
+    image: gcr.io/velascoluis-test/00_r_train:latest
+    command: [Rscript, /app/00_r_train.R]
+    args: [
+      '--model_file_name',          {inputValue: model_file_name},
+      '--gcp_bucket',               {inputValue: gcp_bucket}
+    ]
